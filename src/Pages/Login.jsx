@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { supabase } from "../supabase";
+import { isSupabaseConfigured, supabase } from "../supabase";
 import { useNavigate } from 'react-router-dom'
 import { Mail, Lock, LogIn, Sparkles, Eye, EyeOff } from 'lucide-react'
 
@@ -12,6 +12,8 @@ export default function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault()
+    if (!supabase) return
+
     setLoading(true)
     const { data, error } = await supabase.auth.signInWithPassword({ email, password })
     if (error) { alert(error.message); setLoading(false); return }
@@ -43,6 +45,11 @@ export default function Login() {
               </div>
               <h1 className="text-3xl font-bold text-white">Welcome Back</h1>
               <p className="text-gray-400 text-sm">Sign in to manage your portfolio</p>
+              {!isSupabaseConfigured && (
+                <p className="text-amber-300/80 text-xs" role="status">
+                  Configure Supabase in .env to enable admin sign in.
+                </p>
+              )}
             </div>
 
             {/* Form */}
@@ -88,7 +95,7 @@ export default function Login() {
                 </div>
               </div>
 
-              <button type="submit" disabled={loading} className="relative group/btn w-full mt-1">
+              <button type="submit" disabled={loading || !isSupabaseConfigured} className="relative group/btn w-full mt-1 disabled:cursor-not-allowed disabled:opacity-50">
                 <div className="absolute -inset-0.5 bg-gradient-to-r from-[#4f52c9] to-[#8644c5] rounded-xl opacity-70 blur group-hover/btn:opacity-100 transition duration-300" />
                 <div className="relative h-11 bg-[#030014] rounded-xl border border-white/10 flex items-center justify-center gap-2 overflow-hidden">
                   <div className="absolute inset-0 scale-x-0 group-hover/btn:scale-x-100 origin-left transition-transform duration-500 bg-gradient-to-r from-[#4f52c9]/20 to-[#8644c5]/20" />

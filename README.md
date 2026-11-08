@@ -47,11 +47,11 @@ cd Portofolio_V5
 npm install
 ```
 
-> If you encounter peer dependency issues: `npm install --legacy-peer-deps`
+`.npmrc` enables legacy peer resolution for the React 18 compatibility mismatch in the older swipe-view package.
 
 ### 2. Environment Variables
 
-Create a `.env` file in the root directory:
+The public site can run without Supabase. Projects, certificates, comments, and admin sign-in need a Supabase project. Copy `.env.example` to `.env` and fill in the values from your project's Settings → API page:
 
 ```env
 VITE_SUPABASE_URL=your-supabase-project-url
@@ -61,20 +61,9 @@ VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
 > Find these in your Supabase project under **Settings → API**.  
 > ⚠️ Never commit `.env` to version control — make sure it's in `.gitignore`.
 
-### 3. Supabase Client (`src/supabase.js`)
+### 3. Supabase Client
 
-```javascript
-import { createClient } from '@supabase/supabase-js'
-
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY
-
-if (!supabaseUrl || !supabaseKey) {
-  throw new Error('Supabase credentials missing. Check your .env file.')
-}
-
-export const supabase = createClient(supabaseUrl, supabaseKey)
-```
+`src/supabase.js` creates the client only when both environment variables are present. Without them, the public portfolio still renders and backend-dependent features show setup guidance.
 
 ### 4. Database Setup
 

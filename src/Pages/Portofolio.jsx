@@ -136,6 +136,8 @@ export default function FullWidthTabs() {
 
 
   const fetchData = useCallback(async () => {
+    if (!supabase) return;
+
     try {
       // Mengambil data dari Supabase secara paralel
       const [projectsResponse, certificatesResponse] = await Promise.all([
@@ -215,6 +217,11 @@ export default function FullWidthTabs() {
           Explore my journey through projects, certifications, and technical expertise. 
           Each section represents a milestone in my continuous learning path.
         </p>
+        {!supabase && (
+          <p className="mt-4 text-xs text-slate-500" role="status">
+            Add your Supabase settings to .env to load projects and certificates.
+          </p>
+        )}
       </div>
 
       <Box sx={{ width: "100%" }}>

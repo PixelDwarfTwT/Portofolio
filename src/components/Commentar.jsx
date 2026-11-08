@@ -241,6 +241,8 @@ const Komentar = () => {
 
     // Fetch pinned comment
     useEffect(() => {
+        if (!supabase) return;
+
         const fetchPinnedComment = async () => {
             try {
                 const { data, error } = await supabase
@@ -267,6 +269,8 @@ const Komentar = () => {
 
     // Fetch regular comments (excluding pinned) and set up real-time subscription
     useEffect(() => {
+        if (!supabase) return;
+
         const fetchComments = async () => {
             const { data, error } = await supabase
                 .from('portfolio_comments')
@@ -307,6 +311,7 @@ const Komentar = () => {
 
     const uploadImage = useCallback(async (imageFile) => {
         if (!imageFile) return null;
+        if (!supabase) throw new Error('Supabase is not configured.');
         
         const fileExt = imageFile.name.split('.').pop();
         const fileName = `${Date.now()}_${Math.random().toString(36).substring(2)}.${fileExt}`;
@@ -328,6 +333,11 @@ const Komentar = () => {
     }, []);
 
     const handleCommentSubmit = useCallback(async ({ newComment, userName, imageFile }) => {
+        if (!supabase) {
+            setError('Comments are unavailable until Supabase is configured.');
+            return;
+        }
+
         setError('');
         setIsSubmitting(true);
         
@@ -400,9 +410,15 @@ const Komentar = () => {
                     </div>
                 )}
                 
-                <div>
-                    <CommentForm onSubmit={handleCommentSubmit} isSubmitting={isSubmitting} error={error} />
-                </div>
+                {supabase ? (
+                    <div>
+                        <CommentForm onSubmit={handleCommentSubmit} isSubmitting={isSubmitting} error={error} />
+                    </div>
+                ) : (
+                    <p className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm text-gray-400">
+                        Connect Supabase to read and post comments.
+                    </p>
+                )}
 
                 <div className="space-y-4 h-[328px] overflow-y-auto overflow-x-hidden custom-scrollbar pt-1 pr-1 " data-aos="fade-up" data-aos-delay="200">
                     {/* Pinned Comment */}
@@ -418,10 +434,14 @@ const Komentar = () => {
                     )}
                     
                     {/* Regular Comments */}
-                    {comments.length === 0 && !pinnedComment ? (
+                    {comments.length === 0 && !pinnedComment && supabase ? (
                         <div className="text-center py-8" data-aos="fade-in">
                             <UserCircle2 className="w-12 h-12 text-indigo-400 mx-auto mb-3 opacity-50" />
                             <p className="text-gray-400">No comments yet. Start the conversation!</p>
+                        </div>
+                    ) : !supabase ? (
+                        <div className="text-center py-8 text-sm text-gray-500">
+                            Comments are shown here after Supabase is configured.
                         </div>
                     ) : (
                         comments.map((comment, index) => (
