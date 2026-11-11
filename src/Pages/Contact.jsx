@@ -44,21 +44,19 @@ const ContactPage = () => {
     });
 
     try {
-      // Ganti dengan email Anda di FormSubmit
-      const formSubmitUrl = 'https://formsubmit.co/ekizulfarrachman@gmail.com';
-      
-      // Siapkan data form untuk FormSubmit
-      const submitData = new FormData();
-      submitData.append('name', formData.name);
-      submitData.append('email', formData.email);
-      submitData.append('message', formData.message);
-      submitData.append('_subject', 'Pesan Baru dari Website Portfolio');
-      submitData.append('_captcha', 'false'); // Nonaktifkan captcha
-      submitData.append('_template', 'table'); // Format email sebagai tabel
+      const formSubmitUrl = 'https://formsubmit.co/ajax/andhikamaulana374@gmail.com';
+      const submitData = {
+        name: formData.name,
+        email: formData.email,
+        message: formData.message,
+        _subject: 'Pesan Baru dari Website Portfolio',
+        _captcha: false,
+        _template: 'table',
+      };
 
       await axios.post(formSubmitUrl, submitData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          Accept: 'application/json',
         },
       });
 
@@ -79,29 +77,13 @@ const ContactPage = () => {
       });
 
     } catch (error) {
-      if (error.request && error.request.status === 0) {
-        Swal.fire({
-          title: 'Berhasil!',
-          text: 'Pesan Anda telah berhasil terkirim!',
-          icon: 'success',
-          confirmButtonColor: '#c2410c',
-          timer: 2000,
-          timerProgressBar: true
-        });
-
-        setFormData({
-          name: "",
-          email: "",
-          message: "",
-        });
-      } else {
-        Swal.fire({
-          title: 'Gagal!',
-          text: 'Terjadi kesalahan. Silakan coba lagi nanti.',
-          icon: 'error',
-          confirmButtonColor: '#c2410c'
-        });
-      }
+      console.error('Failed to send contact message.');
+      Swal.fire({
+        title: 'Gagal!',
+        text: 'Pesan belum dapat dikirim. Silakan coba lagi nanti.',
+        icon: 'error',
+        confirmButtonColor: '#c2410c'
+      });
     } finally {
       setIsSubmitting(false);
     }

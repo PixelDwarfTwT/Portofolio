@@ -1,21 +1,8 @@
 import React, { useState, useEffect, memo } from "react"
 import { Helmet } from "react-helmet-async"
-import { Github, Linkedin, Mail, ExternalLink, Instagram } from "lucide-react"
+import { Github, Mail, ExternalLink, Instagram } from "lucide-react"
 import AOS from 'aos'
 import 'aos/dist/aos.css'
-
-const StatusBadge = memo(() => (
-  <div className="inline-block animate-float lg:mx-0" data-aos="zoom-in" data-aos-delay="400">
-    <div className="relative group">
-      <div className="absolute -inset-0.5 bg-gradient-to-r from-[#f97316] to-[#fdba74] rounded-full blur opacity-30 group-hover:opacity-50 transition duration-1000"></div>
-      <div className="relative px-3 sm:px-4 py-2 rounded-full bg-black/40 backdrop-blur-xl border border-white/10">
-        <span className="bg-gradient-to-r from-[#f97316] to-[#fdba74] text-transparent bg-clip-text sm:text-sm text-[0.7rem] font-medium flex items-center">
-          Ready to Innovate
-        </span>
-      </div>
-    </div>
-  </div>
-));
 
 const MainTitle = memo(() => (
   <div className="space-y-2" data-aos="fade-up" data-aos-delay="600">
@@ -76,9 +63,8 @@ const TYPING_SPEED = 100;
 const STUDENT_TITLE = "Informatics Student";
 const TECH_STACK = ["React", "Javascript", "Node.js", "Tailwind"];
 const SOCIAL_LINKS = [
-  { icon: Github, link: "https://github.com/EkiZR", label: "GitHub Profile" },
-  { icon: Linkedin, link: "https://www.linkedin.com/in/ekizr/", label: "LinkedIn Profile" },
-  { icon: Instagram, link: "https://www.instagram.com/ekizr_/?hl=id", label: "Instagram Profile" }
+  { icon: Github, link: "https://github.com/PixelDwarfTwT", label: "GitHub Profile" },
+  { icon: Instagram, link: "https://www.instagram.com/dkashzy?dlrf=MWV0MGlobXQ3ODNpZA==", label: "Instagram Profile" }
 ];
 
 const Home = () => {
@@ -134,9 +120,8 @@ const Home = () => {
             "jobTitle": "Backend Developer",
             "url": "${window.location.origin}",
             "sameAs": [
-              "https://github.com/EkiZR",
-              "https://www.linkedin.com/in/ekizr/",
-              "https://www.instagram.com/ekizr_/"
+              "https://github.com/PixelDwarfTwT",
+              "https://www.instagram.com/dkashzy?dlrf=MWV0MGlobXQ3ODNpZA=="
             ]
           }
         `}</script>
@@ -151,7 +136,6 @@ const Home = () => {
                 data-aos="fade-right"
                 data-aos-delay="200">
                 <div className="space-y-4 sm:space-y-6">
-                  <StatusBadge />
                   <MainTitle />
 
                   {/* Typing Effect */}

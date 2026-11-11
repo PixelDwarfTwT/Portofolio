@@ -137,7 +137,7 @@ const ProjectDetails = () => {
         ...selectedProject,
         Features: selectedProject.Features || [],
         TechStack: selectedProject.TechStack || [],
-        Github: selectedProject.Github || "https://github.com/EkiZR",
+        Github: selectedProject.Github || "https://github.com/PixelDwarfTwT",
       };
       setProject(enhancedProject);
     }
@@ -156,7 +156,7 @@ const ProjectDetails = () => {
     );
   }
 
-  const projectUrl = `${window.location.origin}/project/${toSlug(project.Title)}`;
+  const projectUrl = `${window.location.origin}${import.meta.env.BASE_URL}project/${toSlug(project.Title)}`;
 
   return (
     <>
